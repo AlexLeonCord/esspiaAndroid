@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constrainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="10dp"
+    tools:context=".FirmActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:text="Firma" />
+
+        <LinearLayout
+            android:id="@+id/signLayout"
+            android:layout_width="match_parent"
+            android:layout_height="215dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            android:text="Recibido por" />
+
+        <EditText
+            android:id="@+id/namePerson"
+            android:layout_width="323dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="337dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Cédula" />
+
+        <EditText
+            android:id="@+id/idPerson"
+            android:layout_width="323dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/textView32"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NOMBRE DEL PDF" />
+
+        <EditText
+            android:id="@+id/etNamePDFR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/btnSendInformBD"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="GUARDAR"
+            app:backgroundTint="@color/teal_700" />
+
+        <Button
+            android:id="@+id/btnSendReportEmail"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:text="ENVIAR REPORTE"
+            app:backgroundTint="@color/teal_700" />
+
+    </LinearLayout>
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

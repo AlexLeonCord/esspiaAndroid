@@ -1,0 +1,59 @@
+<resources>
+
+    <string name="action_createUser">Crear Usuario</string>
+    <string name="action_createClient">Crear Cliente</string>
+    <string name="action_createProduct">Crear Producto</string>
+    <string name="action_exit">Cerrar Sesión</string>
+
+    <string name="app_name">Esspia</string>
+    <string name="user">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Entrar</string>
+    <string name="mensaleLogin">Iniciar Sesión</string>
+    <string name="btnSearchClient">Buscar</string>
+    <string name="searchClient">Buscar Cliente</string>
+    <string name="searchClientHint">Identificación</string>
+    <string name="client">Cliente</string>
+    <string name="idClient">Identificación</string>
+    <string name="adrressClient">Dirección</string>
+    <string name="phone">Teléfono</string>
+    <string name="newInstalation">Nueva Instalación</string>
+    <string name="maintaniment">Mantenimiento</string>
+    <string name="addDevice">Adición de equipos</string>
+    <string name="cotizacion">Cotización</string>
+    <string name="actEntrega">Acta de entrega</string>
+    <string name="descriptionServ">Descripción del servicio</string>
+    <string name="enginier">Ingeniero</string>
+    <string name="service">Servicio</string>
+    <string name="description">Descripción</string>
+    <string name="saveInfo">Guardar</string>
+    <string name="mail">Email</string>
+    <string name="btnPhoto">Tomar Foto</string>
+    <string name="infoPhoto">Ingrese la información de la foto</string>
+    <string name="btnSiguiente">Siguiente</string>
+
+
+    <string-array name="Servicios">
+        <item>Seleccione</item>
+        <item>Reporte de Mantenimiento</item>
+        <item>Cotización de mantenimiento o instalación nueva</item>
+        <item>Acta de Entrega</item>
+
+    </string-array>
+
+    <string-array name="TipoServicio">
+        <item>Seleccione</item>
+
+        <item>Cotización de mantenimiento </item>
+        <item>Instalación nueva</item>
+
+    </string-array>
+
+    <string-array name="TipoId">
+
+        <item>Seleccione...</item>
+        <item>Cédula</item>
+        <item>NIT</item>
+
+    </string-array>
+</resources>

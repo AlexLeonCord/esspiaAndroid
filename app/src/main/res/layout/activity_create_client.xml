@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateClient">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:paddingTop="30dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/textVi"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_weight="1"
+                android:text="Crear Cliente"
+                android:textAlignment="center"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvIdClient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tipo de Identificación" />
+
+            <Spinner
+                android:id="@+id/spinnerTypeId"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:entries="@array/TipoId" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Número de Identificación" />
+
+            <EditText
+                android:id="@+id/etIdClient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/tvNameCompany"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:text="Compañia" />
+
+            <EditText
+                android:id="@+id/etNameCompany"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="auto"
+                android:inputType="textPersonName"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/tvRepLegal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Representante Legal" />
+
+            <EditText
+                android:id="@+id/etNameRepLegal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:focusable="auto"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/tvIdRepre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Identificación de Representante:" />
+
+            <EditText
+                android:id="@+id/etIdRepresent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/tvEmailClient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Email" />
+
+            <EditText
+                android:id="@+id/etEmailClient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:focusable="auto"
+                android:inputType="textWebEmailAddress" />
+
+            <TextView
+                android:id="@+id/tvPhoneClient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/phone" />
+
+            <EditText
+                android:id="@+id/etPhoneClient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:focusable="auto"
+                android:inputType="phone" />
+
+            <TextView
+                android:id="@+id/tvAddresClient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Dirección" />
+
+            <EditText
+                android:id="@+id/etAddressClient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:focusable="auto"
+                android:inputType="textPersonName"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/btnSaveClient"
+                android:layout_width="165dp"
+                android:layout_height="76dp"
+                android:layout_weight="1"
+                android:paddingTop="8dp"
+                android:text="Guardar"
+                app:backgroundTint="@color/teal_700" />
+
+            <Button
+                android:id="@+id/btnExitClient"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:text="Terminar"
+                app:backgroundTint="@color/teal_700" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

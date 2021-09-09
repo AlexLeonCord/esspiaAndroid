@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.app.esspia.MainActivity">
+    <item
+        android:id="@+id/action_createUser"
+        android:orderInCategory="100"
+        android:title="@string/action_createUser"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_createClient"
+        android:orderInCategory="100"
+        android:title="@string/action_createClient"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_createProduct"
+        android:orderInCategory="100"
+        android:title="@string/action_createProduct"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_exit"
+        android:orderInCategory="100"
+        android:title="@string/action_exit"
+        app:showAsAction="never" />
+</menu>
