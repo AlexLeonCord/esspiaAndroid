@@ -1,14 +1,28 @@
 package com.app.esspia;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
+import androidx.annotation.NonNull;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -69,6 +83,14 @@ public class Photo extends AppCompatActivity {
     String  descriptionTypeService ;
     String  idServiceReport;
 
+    // Banderas que indicarán si tenemos permisos
+    private boolean tienePermisoCamara = false;
+    private boolean tienePermisoAlmacenamiento = false;
+
+    // Código de permiso
+    private static final int CODIGO_PERMISOS_CAMARA = 1;
+    private static final int CODIGO_PERMISOS_ALMACENAMIENTO = 2;
+
 
 
     @Override
@@ -122,6 +144,8 @@ public class Photo extends AppCompatActivity {
 
         Log.e("LA FECHA ACTUAL ",idServiceReport);
 
+
+
         btnSavePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,10 +154,11 @@ public class Photo extends AppCompatActivity {
                 if (imageBitmap!=null && !etInfoPhoto.getText().toString().isEmpty()){
 
                     String bitmapToBase64= bitmapToBase64(imageBitmap);
+                    Log.e("LA IMAGEN BASE64: ",bitmapToBase64);
 
                 sendPhoto(idServiceReport,bitmapToBase64,etInfoPhoto.getText().toString());
 
-                 Log.w("IMAGEN BASE64",bitmapToBase64) ;
+               //  Log.w("IMAGEN BASE64",bitmapToBase64) ;
 
 
 
@@ -143,14 +168,37 @@ public class Photo extends AppCompatActivity {
 
             }
         });
-
+/*
+        if(validaPermisos()){
+            btnPhoto.setEnabled(true);
+        }else{
+            btnPhoto.setEnabled(false);
+        }
+*/
         btnPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dispatchTakePictureIntent();
 
+               // dispatchTakePictureIntent();
 
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    verificarYPedirPermisosDeCamara();
+                    verificarYPedirPermisosDeAlmacenamiento();
+
+                    if(tienePermisoCamara && tienePermisoAlmacenamiento){
+                        dispatchTakePictureIntent();
+                    }
+                    else{
+                        Toast.makeText(Photo.this,"No tiene permisos de camara y almacenamiento",Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }else{
+                    dispatchTakePictureIntent();
+
+                }
             }
+
         });
 
         btnNextToFirm.setOnClickListener(new View.OnClickListener() {
@@ -225,6 +273,7 @@ public class Photo extends AppCompatActivity {
             ivPhoto.setImageBitmap(imageBitmap);
         }
     }
+
 
 
     private String bitmapToBase64(Bitmap bitmap) {
@@ -331,7 +380,7 @@ public class Photo extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     loading.dismiss();
                      Toast.makeText(Photo.this,"Ocurrio un error, intente de nuevo ",Toast.LENGTH_LONG).show();
-
+                     Log.e("EL ERROR ",""+error);
                 }
             };
 
@@ -355,5 +404,173 @@ public class Photo extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
     }
+
+
+    private void verificarYPedirPermisosDeCamara() {
+        int estadoDePermiso = ContextCompat.checkSelfPermission(Photo.this, CAMERA);
+        if (estadoDePermiso == PackageManager.PERMISSION_GRANTED) {
+            // En caso de que haya dado permisos ponemos la bandera en true
+            // y llamar al método
+            permisoDeCamaraConcedido();
+        } else {
+            // Si no, entonces pedimos permisos. Ahora mira onRequestPermissionsResult
+            ActivityCompat.requestPermissions(Photo.this,
+                    new String[]{android.Manifest.permission.CAMERA},
+                    CODIGO_PERMISOS_CAMARA);
+        }
+    }
+    private void verificarYPedirPermisosDeAlmacenamiento() {
+        int estadoDePermiso = ContextCompat.checkSelfPermission(Photo.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (estadoDePermiso == PackageManager.PERMISSION_GRANTED) {
+            // En caso de que haya dado permisos ponemos la bandera en true
+            // y llamar al método
+            permisoDeAlmacenamientoConcedido();
+        } else {
+            // Si no, entonces pedimos permisos. Ahora mira onRequestPermissionsResult
+            ActivityCompat.requestPermissions(Photo.this,
+                    new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    CODIGO_PERMISOS_ALMACENAMIENTO);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CODIGO_PERMISOS_CAMARA:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permisoDeCamaraConcedido();
+                } else {
+                    permisoDeCamaraDenegado();
+                }
+                break;
+
+            case CODIGO_PERMISOS_ALMACENAMIENTO:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permisoDeAlmacenamientoConcedido();
+                } else {
+                    permisoDeAlmacenamientoDenegado();
+                }
+                break;
+
+            // Aquí más casos dependiendo de los permisos
+            // case OTRO_CODIGO_DE_PERMISOS...
+
+        }
+    }
+
+
+    private void permisoDeAlmacenamientoConcedido() {
+        // Aquí establece las banderas o haz lo que
+        // ibas a hacer cuando el permiso se concediera. Por
+        // ejemplo puedes poner la bandera en true y más
+        // tarde en otra función comprobar esa bandera
+        Toast.makeText(Photo.this, "El permiso para el almacenamiento está concedido", Toast.LENGTH_SHORT).show();
+        tienePermisoAlmacenamiento = true;
+    }
+
+    private void permisoDeAlmacenamientoDenegado() {
+        // Esto se llama cuando el usuario hace click en "Denegar" o
+        // cuando lo denegó anteriormente
+        Toast.makeText(Photo.this, "El permiso para el almacenamiento está denegado", Toast.LENGTH_SHORT).show();
+    }
+
+    private void permisoDeCamaraConcedido() {
+        // Aquí establece las banderas o haz lo que
+        // ibas a hacer cuando el acceso a la cámara se condeciera
+        // Por ejemplo puedes poner la bandera en true y más
+        // tarde en otra función comprobar esa bandera
+        Toast.makeText(Photo.this, "El permiso para la cámara está concedido", Toast.LENGTH_SHORT).show();
+        tienePermisoCamara = true;
+    }
+
+    private void permisoDeCamaraDenegado() {
+        // Esto se llama cuando el usuario hace click en "Denegar" o
+        // cuando lo denegó anteriormente
+        Toast.makeText(Photo.this, "El permiso para la cámara está denegado", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
+    /*
+
+    private boolean validaPermisos() {
+
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M){
+            return true;
+        }
+
+        if((checkSelfPermission(CAMERA)== PackageManager.PERMISSION_GRANTED)&&
+                (checkSelfPermission(WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED)){
+            return true;
+        }
+
+        if((shouldShowRequestPermissionRationale(CAMERA)) ||
+                (shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE))){
+             cargarDialogoRecomendacion();
+        }else{
+            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,CAMERA},100);
+        }
+
+        return false;
+    }
+
+    private void cargarDialogoRecomendacion() {
+        AlertDialog.Builder dialogo=new AlertDialog.Builder(Photo.this);
+        dialogo.setTitle("Permisos Desactivados");
+        dialogo.setMessage("Debe aceptar los permisos para el correcto funcionamiento de la App");
+
+        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,CAMERA},100);
+                }
+            }
+        });
+        dialogo.show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode==100){
+            if(grantResults.length==2 && grantResults[0]==PackageManager.PERMISSION_GRANTED
+                    && grantResults[1]==PackageManager.PERMISSION_GRANTED){
+                btnPhoto.setEnabled(true);
+            }
+            //else{
+            //    solicitarPermisosManual();
+           // }
+        }
+    }
+
+    private void solicitarPermisosManual() {
+        final CharSequence[] opciones={"si","no"};
+        final AlertDialog.Builder alertOpciones=new AlertDialog.Builder(Photo.this);
+        alertOpciones.setTitle("¿Desea configurar los permisos de forma manual?");
+        alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (opciones[i].equals("si")){
+                    Intent intent=new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri=Uri.fromParts("package",getPackageName(),null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(),"Los permisos no fueron aceptados",Toast.LENGTH_SHORT).show();
+                    dialogInterface.dismiss();
+                }
+            }
+        });
+        alertOpciones.show();
+    }
+
+
+     */
+
 }
 

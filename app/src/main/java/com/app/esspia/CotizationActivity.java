@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Base64;
@@ -117,10 +118,10 @@ public class CotizationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cotization);
 
-          btnSendInformBDE=findViewById(R.id.btnSendInformBDE);
+        btnSendInformBDE=findViewById(R.id.btnSendInformBDE);
 
         btnSendReportEmailE=findViewById(R.id.btnSendReportEmailE);
-         btnSendReportEmailE.setBackgroundColor(getResources().getColor(R.color.grey));
+        btnSendReportEmailE.setBackgroundColor(getResources().getColor(R.color.grey));
         btnSendReportEmailE.setEnabled(false);
 
         numberCotizationsForClient=0;
@@ -338,11 +339,6 @@ public class CotizationActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
             }
         });
 
@@ -448,11 +444,6 @@ public class CotizationActivity extends AppCompatActivity {
                 }catch (JSONException e) {
                     Toast.makeText(CotizationActivity.this, "JSon exception", Toast.LENGTH_SHORT).show();
                 }
-
-
-
-
-
 
 
 
@@ -642,7 +633,7 @@ public class CotizationActivity extends AppCompatActivity {
 
                         templatePDF.closeDocumment();
 
-                    //   templatePDF.viewPDF();
+                    // templatePDF.viewPDF();
 
                         SendEmail();
 
@@ -719,25 +710,8 @@ public class CotizationActivity extends AppCompatActivity {
                         // Nota: aquí jsonArray debería venir de una API externa u otro lugar
 
                         JSONArray results = response.getJSONArray("data");
-                        //  templatePDF= new TemplatePDF(getApplicationContext());
-                        // templatePDF.openDocument();
-
-                        // tr.removeAllViews();
-/*
-                        for (int i = 0; i < results.length(); i++){
-
-                            JSONObject aux = results.getJSONObject(i);
-                           // id = aux.getInt("id");
-                           // idService = aux.getString("idService");
-                          //  imageStringB64 = aux.getString("imageString");
-                            //description=aux.getString("description");
 
 
-                         //   Bitmap  bitmap =   base64ToBitmap(imageStringB64);
-                         //   ListImagesBitmap.add(bitmap);
-
-                        }
-*/
                         for (int i = 0; i < results.length(); i++){
 
                             JSONObject aux = results.getJSONObject(i);
@@ -753,7 +727,7 @@ public class CotizationActivity extends AppCompatActivity {
                             Image img = Image.getInstance(stream3.toByteArray());
 
                             //  img.setAbsolutePosition(100, 100);
-                            img.scalePercent(120);
+                            //img.scalePercent(100);
 
                             templatePDF.addParagraph(""+description);
                             templatePDF.addImage(img);
@@ -850,10 +824,15 @@ public class CotizationActivity extends AppCompatActivity {
 
     public void SendEmail()
     {
-
-
-        // Defino mi Intent y hago uso del objeto ACTION_SEND
-        Intent intent = new Intent(Intent.ACTION_SEND);
+        Intent intent=null;
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M) {
+            // Defino mi Intent y hago uso del objeto ACTION_SEND   TO, Uri.parse( "mailto:" +correo)
+            intent = new Intent(Intent.ACTION_SEND);
+        }
+        else{
+            // Defino mi Intent y hago uso del objeto ACTION_SEND   TO, Uri.parse( "mailto:" +correo)
+              intent = new Intent(Intent.ACTION_SENDTO, Uri.parse( "mailto:" +correo));
+        }
 
         // Defino los Strings Email, Asunto y Mensaje con la función putExtra
         intent.putExtra(Intent.EXTRA_EMAIL,
@@ -880,6 +859,8 @@ public class CotizationActivity extends AppCompatActivity {
         btnSendReportEmailE.setEnabled(false);
        // namePerson.setText("");
         //idPerson.setText("");
+
+
 
     }
 

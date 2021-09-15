@@ -58,7 +58,7 @@ public class TemplatePDF {
 
     public TemplatePDF(Context context) {
         this.context= context;
-         this.namePDFM="";
+        this.namePDFM="";
         this.namePDFC="";
         this.namePDFA="";
 
@@ -442,7 +442,7 @@ public class TemplatePDF {
 
 
             // Indicamos cuantas columnas ocupa la celda
-            //celdaFinal.setColspan(4);
+
 
             pdfPTable.addCell(celdaFinal1);
             pdfPTable.addCell(celdaFinal2);

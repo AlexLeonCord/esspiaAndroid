@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(MainActivity.this,"Error response "+ url + " "+error.toString(),Toast.LENGTH_LONG).show();
                     loading.dismiss();
+                    Log.e("ERROR ",""+error);
                 }
             };
 

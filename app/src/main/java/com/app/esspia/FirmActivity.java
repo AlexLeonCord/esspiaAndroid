@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Base64;
@@ -839,8 +840,15 @@ public class FirmActivity extends AppCompatActivity {
 
             case 1:
 
-                // Defino mi Intent y hago uso del objeto ACTION_SEND
-                Intent intent = new Intent(Intent.ACTION_SEND);
+                Intent intent=null;
+                if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M) {
+                    // Defino mi Intent y hago uso del objeto ACTION_SEND   TO, Uri.parse( "mailto:" +correo)
+                    intent = new Intent(Intent.ACTION_SEND);
+                }
+                else{
+                    // Defino mi Intent y hago uso del objeto ACTION_SEND   TO, Uri.parse( "mailto:" +correo)
+                    intent = new Intent(Intent.ACTION_SENDTO, Uri.parse( "mailto:" +correo));
+                }
 
                 // Defino los Strings Email, Asunto y Mensaje con la función putExtra
                 intent.putExtra(Intent.EXTRA_EMAIL,
@@ -872,8 +880,15 @@ public class FirmActivity extends AppCompatActivity {
 
             case 3:
 
-                // Defino mi Intent y hago uso del objeto ACTION_SEND
-                Intent intentA = new Intent(Intent.ACTION_SEND);
+                Intent intentA=null;
+                if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M) {
+                    // Defino mi Intent y hago uso del objeto ACTION_SEND   TO, Uri.parse( "mailto:" +correo)
+                    intentA = new Intent(Intent.ACTION_SEND);
+                }
+                else{
+                    // Defino mi Intent y hago uso del objeto ACTION_SEND   TO, Uri.parse( "mailto:" +correo)
+                    intentA = new Intent(Intent.ACTION_SENDTO, Uri.parse( "mailto:" +correo));
+                }
 
                 // Defino los Strings Email, Asunto y Mensaje con la función putExtra
                 intentA.putExtra(Intent.EXTRA_EMAIL,
